@@ -86,7 +86,7 @@ me@myhost:~ find . -maxdepth 1 -exec du -sh {} \; | sort -h
 ...
 ```
 
-### Make it into a reusable utility
+### Make it into a single command
 
 So far, we've been recycling the same, somewhat verbose, command, either by cut-n-paste, or, more easily, using the  <UP-ARROW> key in your terminal. If you find this utility useful, it might be more efficient to convert it to a truly usuable tool. We will employ the **alias** tool in the Bash language. Though **alias** appears to be a command, there is no **alias** executable, as with **find** or **du**, which exist in **/usr/bin**. Rather, it is an internal function with Bash itself. In our shell session, we will alias our **find** utility to a short command **inspect-dir**.
 
@@ -101,4 +101,6 @@ alias <custom-command>="<actual-command>"
 
 The double-quotes in the **alias** command are essential. Once added as an alias, it becomes a new command in our arsenal of tools. Let's use it to get to the next level. If you remember, the **.thunderbird** folder in my home directory was 5GB. It was also a 'dot-file', meaning the filename began with a '.' and was hidden from normal view.
 
-### Persisting our disk inspection utility across our whole environment
+### Make it into a reusable utility
+
+We've been able to shorten our complex **find** command into a single command **inspect-dir**. But if we log out of our session, all of our work is lost. In this step, we'll modify our Bash profile to make our utility available across shell sessions, logins and system reboots. The key is to add our aliased command to our Bash profile. We will not cover how to edit files in this article, but will only specify what changes to make to our persistent Bash profile. This profile is stored in our $HOME directory in both **.bash_profile** and **.bashrc**. Adding the following line to both of these files will make our command avaiable to future login sessions. On most modern Linux systems, you should log out and log back in to make the alias available in all sessions.
