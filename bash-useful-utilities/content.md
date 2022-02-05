@@ -25,7 +25,7 @@ me@myhost:~$ find . -maxdepth 1 -exec du -sh {} \;
 
 This should output a listing of all directories in your home directory, listing the size of the directory along with its name. Let's take a moment to analyze what is happening in this command. First, it employs Linux's **find** command, which will list all files in a given directory, in this case, the current directory, indicated by the dot (.). We use the **-maxdepth** parameter and set it to **1** to only list the top-level directories without descending into sub-directories. It then uses the **-exec** option, which enables sending each listing to another command, sometimes expressed as 'piping the output'. The **find** command originates in very early versions of Linux and Unix flavors, so, unlike many other commands, the 'long' options (more than a single character) use a single dash '-'.
 
-Each directory name from **find** is passed to the **du -sh** command, which displays the amount of space the directory consumes. The **-sh** option string is actually two options squeezed together. The **-s** option displays a summary of the top directory. Without it, **du** would descend into each subdirectory, which, in many Linux home directories, can number in the 1000's and not very useful here. The **-h** option displays the output in **h**uman-readable form, which lists output as **G**igabytes, **M**egabytes, etc. The **{}** in the **du** command is a placeholder injected by the **-exec** option. In actual execution, the directory name is passed in. Finally, the **\;** is required when using **find**, as it terminates the command(s) passed to **-exec**.
+Each directory name from **find** is passed to the **du -sh** command, which displays the amount of space the directory consumes. The **-sh** option string is actually two options squeezed together. The **-s** option displays a summary of the top directory. Without it, **du** would descend into each subdirectory, which, in many Linux home directories, can number in the 1000's and not very useful here. The **-h** option displays the output in **h**uman-readable form, which lists output as **G**igabytes, **M**egabytes, etc. The **{}** in the **du** command is a placeholder injected by the **-exec** option. In actual execution, the directory name is passed in. Finally, the **\\;** is required when using **find**, as it terminates the command(s) passed to **-exec**.
 
 The output of our command might look like this:
 
@@ -97,7 +97,7 @@ The basic syntax for a Bash **alias** is:
 alias <custom-command>="<actual-command>"
 ```
 
-The double-quotes in the **alias** command are essential. Once added as an alias, it becomes a new command in our arsenal of tools. Let's use it to get to the next level. If you remember, the **.thunderbird** folder in my home directory was 5GB. It was also a 'dot-file', meaning the filename began with a '.' and was hidden from normal view.
+The double-quotes in the **alias** command are essential. Once added as an alias, it becomes a new command in our arsenal of tools. Let's use it to get to the next level. If you remember, the **.thunderbird** folder in my home directory was 5GB. It was also a 'dot-file', meaning the filename began with a '.' and was hidden from normal view. We can use repeated invocations of our new alias to find the culprit which is taking up so much space in this hidden directory.
 
 ### Make it into a reusable utility
 
