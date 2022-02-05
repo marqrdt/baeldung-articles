@@ -23,11 +23,13 @@ me@myhost:~ find . -maxdepth 1 -exec du -sh {} \;
 
 ### A closer look
 
-This should output a listing of all directories in your home directory, listing the size of the directory along with its name. We'll take a moment to analyze what is happening in this command. First, it employs Linux's **find** command, which will list all files in a given directory, in this case, the current directory, indicated by the '.'. Here, we use the **-maxdepth** parameter and set it to 1 to only show the top-level directories. It then uses the **-exec** option, which is allows us to send each listing to another command, sometimes expressed as 'piping the output' to another command. The **find** command originates in very early versions of Linux and Unix flavors, so, unlike many other commands, the 'long' options use a single dash '-'. In our command, each directory name is passed to the **du -sh** command, which displays the amount of space the directory consumes. The **-sh** option string is actually two options squeezed together. The **-s** option displays a summary of the top directory. Without it, **du** would descend into each subdirectory, which in many Linux home directories, numbers in the 1000's, and not very useful here. The **-h** option displays the output in **h**uman-readable form, which list output as **G**igabytes, **M**egabytes, etc.
+This should output a listing of all directories in your home directory, listing the size of the directory along with its name. We'll take a moment to analyze what is happening in this command. First, it employs Linux's **find** command, which will list all files in a given directory, in this case, the current directory, indicated by the dot (.). We use the **-maxdepth** parameter and set it to **1** to only show the top-level directories. It then uses the **-exec** option, which is allows us to send each listing to another command, sometimes expressed as 'piping the output' to another command. The **find** command originates in very early versions of Linux and Unix flavors, so, unlike many other commands, the 'long' options use a single dash '-'.
+
+Each directory name from **find** is passed to the **du -sh** command, which displays the amount of space the directory consumes. The **-sh** option string is actually two options squeezed together. The **-s** option displays a summary of the top directory. Without it, **du** would descend into each subdirectory, which in many Linux home directories, numbers in the 1000's, and not very useful here. The **-h** option displays the output in **h**uman-readable form, which list output as **G**igabytes, **M**egabytes, etc.
 
 The output of our command might look like this:
 
-'''
+```
 ...
 14M     ./.vim
 503M    ./Videos
@@ -40,15 +42,15 @@ The output of our command might look like this:
 12K     ./.fltk
 2.1G    ./.cache
 ...
-'''
+```
 
 Wait! You mean my **.thunderbird** folder is 5GB? And what about **.cache**? I did mention this command can be very useful.
 
 ### Improving our output
 
-The command above is useful, but it can be difficult to inspect for unusually large folders. Here, we'll tailor the command to sort the output using the **sort** command. The **sort** command takes several options. We'll look at two very useful ones. First, we'll add **-g**. Like the same option in the **du** command, this option performs a **h**uman-readable sort, and can properly sort file sizes, sorting **373M** before **5.0G**. Here's what the previous listing would look like when we pipe through **sort -h**:
+The command above is useful, but it can be difficult to inspect for unusually large folders if the directory contains a lrage number of sub-folders. Here, we'll tailor the command to sort the output using the **sort** command. The **sort** command takes several options. We'll look at two very useful ones. First, we'll add **-g**. Like the same option in the **du** command, this option performs a **h**uman-readable sort, and can properly sort file sizes, sorting **373M** before **5.0G**, etc. Here's what the previous listing would look like when we pipe through **sort -h**:
 
-'''
+```
 # output slightly truncated...
 me@myhost:~ find . -maxdepth 1 -exec du -sh {} \; | sort -h
 ...
@@ -63,11 +65,11 @@ me@myhost:~ find . -maxdepth 1 -exec du -sh {} \; | sort -h
 4.9G    ./Downloads
 5.0G    ./.thunderbird
 ...
-'''
+```
 
 This offers much a much clearer metric of our home directory disk usage. We can also add the **-r** option to **sort** to reverse the output listing, showing the list in descending order of size:
 
-'''
+```
 # output slightly truncated...
 me@myhost:~ find . -maxdepth 1 -exec du -sh {} \; | sort -h
 ...
@@ -82,7 +84,7 @@ me@myhost:~ find . -maxdepth 1 -exec du -sh {} \; | sort -h
 12K     ./.fltk
 4.0K    ./.Xauthority
 ...
-'''
+```
 
 ### Make it into a reusable utility
 
@@ -93,9 +95,9 @@ me@myhost:~ alias inspect-dir="find . -maxdepth 1 -exec du -sh {} \; | sort -h"
 ```
 
 The basic syntax for **alias**is:
-'''
- alias <custom-command>="<actual-command>"
- '''
+```
+alias <custom-command>="<actual-command>"
+```
 
 The double-quotes in the **alias** command are essential. Once added as an alias, it becomes a new command in our arsenal of tools. Let's use it to get to the next level. If you remember, the **.thunderbird** folder in my home directory was 5GB. It was also a 'dot-file', meaning the filename began with a '.' and was hidden from normal view.
 
