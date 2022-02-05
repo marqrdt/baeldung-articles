@@ -1,6 +1,6 @@
 # Bash Scripting :: Useful Utilities
 
-The Bash shell in Linux is both a command shell for interacting with a system ,and a compact, powerful programming language. In this segment, we'll look at some very useful Linux command-line utilities and dive into how they work, exploring Linux's powerful command-chaining functionality. We'll use the 'error-driven development' model, a slightly tongue-in-cheek term for making incremental changes as we find problems.
+The Bash shell in Linux is both a command shell for interacting with a system and a compact, powerful programming language. In this segment, we'll look at some very useful Linux command-line utilities and dive into how they work, exploring Linux's powerful command-chaining functionality. We'll use the 'error-driven development' model, a slightly tongue-in-cheek term for making incremental changes as we find problems.
 
 ## Basic setup
 This article assumes that you are running a fairly recent version of Linux, such as CentOS 7+ or Ubuntu 18+. Also, it assumes your default shell is **/bin/bash**. Some users have reasons to run legacy shells such as **csh** or **sh** (it will work in Bourne shell), but this utility should also work in newer shells such as **zsh**. This will also work on a Mac in the Terminal application!
