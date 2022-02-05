@@ -97,7 +97,7 @@ The basic syntax for a Bash **alias** is:
 alias <custom-command>="<actual-command>"
 ```
 
-The double-quotes in the **alias** command are essential. Once added as an alias, it becomes a new command in our arsenal of tools. Let's use it to get to the next level. If you remember, the **.thunderbird** folder in my home directory was 5GB. It was also a 'dot-file', meaning the filename began with a '.' and was hidden from normal view. We can use repeated invocations of our new alias to find the culprit which is taking up so much space in this hidden directory.
+The double-quotes in the **alias** command are essential. Once added as an alias, it becomes a new command in our arsenal of tools. Let's use it to get to the next level. If you recall, the **.thunderbird** folder in my home directory was 5GB. It was also a 'dot-file', meaning the filename began with a '.' and was hidden from normal view. We'll use repeated invocations of our new alias to find the culprit which is taking up so much space in this hidden directory.
 
 ### Make it into a reusable utility
 
