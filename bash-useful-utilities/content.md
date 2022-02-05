@@ -140,7 +140,7 @@ me@myhost:/[Gmail].sbd$ inspect-dir
 2.2G    ./Trash
 ```
 
-Using this simple tool, I'm able to see that 2.2G of the space on my hard drive is dedicated to my Gmail Trash folder. While this is not very much in the real world, and I could possibly manage my Gmail account more efficiently, I believe this article demonstrates how useful our tool can be in real situations. For example, many web-hosting sites offer tiered storage rates, and cloud providers, such as Amazon, charge by actual storage units.
+Using this simple tool, I'm able to see that 2.2G of the space on my hard drive is dedicated to my Gmail Trash folder. While this is not very much in the real world, and I could possibly manage my Gmail account more efficiently, I believe this article demonstrates how useful our tool can be in real situations. For example, many web-hosting sites offer tiered storage rates, and cloud providers, such as Amazon, charge by actual storage units. Also, I backup my system to an offsite location, and I've used this tool to determine what can be omitted from my backups.
 
 ### Make it into a reusable utility
 
