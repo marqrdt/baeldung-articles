@@ -100,7 +100,7 @@ alias <custom-command>="<actual-command>"
 The double-quotes in the **alias** command are essential. Once added as an alias, it becomes a new command in our arsenal of tools. Let's use it to get to the next level. If you recall, the **.thunderbird** folder in my home directory was 5GB. It was also a 'dot-file', meaning the filename began with a '.' and was hidden from normal view. We'll use repeated invocations of our new alias to drill down the disk space hog.
 
 ```
-me@myhost:/~$ cd .thunderbird/
+me@myhost:~$ cd .thunderbird/
 me@myhost:/.thunderbird$ inspect-dir
 4.0K    ./installs.ini
 4.0K    ./Pending Pings
