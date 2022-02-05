@@ -88,7 +88,7 @@ me@myhost:~ find . -maxdepth 1 -exec du -sh {} \; | sort -h
 
 ### Make it into a reusable utility
 
-So far, we've been recycling the same, somewhat verbose, command, either by cut-n-paste, or, more easily, using the  <UP-ARROW> key in your terminal. If you find this utility useful, it might be more efficient to convert it to a truly usuable tool. We will employ the **alias** tool in the Bash language. Though **alias*** appears to be a command, there is no **alias** executable, as with **find** or **du**, which exist in **/usr/bin**. Rather, it is an internal function with Bash itself. In our shell session, we will alias our **find** utility to a short command **inspect-dir**.
+So far, we've been recycling the same, somewhat verbose, command, either by cut-n-paste, or, more easily, using the  <UP-ARROW> key in your terminal. If you find this utility useful, it might be more efficient to convert it to a truly usuable tool. We will employ the **alias** tool in the Bash language. Though **alias** appears to be a command, there is no **alias** executable, as with **find** or **du**, which exist in **/usr/bin**. Rather, it is an internal function with Bash itself. In our shell session, we will alias our **find** utility to a short command **inspect-dir**.
 
 ```
 me@myhost:~ alias inspect-dir="find . -maxdepth 1 -exec du -sh {} \; | sort -h"
