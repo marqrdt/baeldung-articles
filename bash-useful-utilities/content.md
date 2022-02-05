@@ -118,6 +118,8 @@ me@myhost:/r5u8rcgy.default$ inspect-dir
 351M    ./global-messages-db.sqlite
 4.6G    ./ImapMail
 5.0G    .
+```
+```
 me@myhost:/r5u8rcgy.default$ cd ImapMail/
 me@myhost:/ImapMail$ inspect-dir
 4.0K    ./imap.gmail.com.msf
@@ -131,7 +133,14 @@ me@myhost:/imap.gmail.com$ inspect-dir
 672M    ./INBOX
 3.7G    ./[Gmail].sbd
 4.5G    .
+me@myhost:/imap.gmail.com$ cd '[Gmail].sbd'/
+me@myhost:/[Gmail].sbd$ inspect-dir 
+...
+1.1G    ./All Mail
+2.2G    ./Trash
 ```
+
+Using this simple tool, I'm able to see that 2.2G of the space on my hard drive is dedicated to my Gmail Trash folder. While this is not very much in the real world, and I could possibly manage my Gmail account more efficiently, I believe this article demonstrates how useful our tool can be in real situations. For example, many web-hosting sites offer tiered storage rates, and cloud providers, such as Amazon, charge by actual storage units.
 
 ### Make it into a reusable utility
 
