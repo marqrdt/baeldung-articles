@@ -48,7 +48,7 @@ Wait! You mean my **.thunderbird** folder is 5GB? And what about **.cache**? I d
 
 ### Improving our output
 
-The command above is useful, but it can be difficult to inspect if the directory contains a large number of sub-folders. We'll further tailor the command to sort the output using the **sort** command. The **sort** command takes several options. We'll look at two very useful ones. First, we'll add **-g**. Like the same option in the **du** command, this option performs a **h**uman-readable sort, and can properly sort file sizes, sorting **373M** before **5.0G**, etc. Here's what the previous listing would look like when we pipe through **sort -h**:
+The command above is useful, but it can be difficult to inspect if the directory contains a large number of sub-folders. We'll further tailor the command to sort the output using the **sort** command. The **sort** command takes several options. We'll look at two very useful ones. First, we'll add **-h**. Like the same option in the **du** command, this option performs a **h**uman-readable sort, and can properly sort file sizes, sorting **373M** before **5.0G**, etc. Here's what the previous listing would look like when we pipe through **sort -h**:
 
 ```
 me@myhost:~ find . -maxdepth 1 -exec du -sh {} \; | sort -h
