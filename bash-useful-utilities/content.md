@@ -23,9 +23,9 @@ me@myhost:~ find . -maxdepth 1 -exec du -sh {} \;
 
 ### A closer look
 
-This should output a listing of all directories in your home directory, listing the size of the directory along with its name. We'll take a moment to analyze what is happening in this command. First, it employs Linux's **find** command, which will list all files in a given directory, in this case, the current directory, indicated by the dot (.). We use the **-maxdepth** parameter and set it to **1** to only show the top-level directories. It then uses the **-exec** option, which is allows us to send each listing to another command, sometimes expressed as 'piping the output' to another command. The **find** command originates in very early versions of Linux and Unix flavors, so, unlike many other commands, the 'long' options use a single dash '-'.
+This should output a listing of all directories in your home directory, listing the size of the directory along with its name. We'll take a moment to analyze what is happening in this command. First, it employs Linux's **find** command, which will list all files in a given directory, in this case, the current directory, indicated by the dot (.). We use the **-maxdepth** parameter and set it to **1** to only show the top-level directories without descending into sub-directories. It then uses the **-exec** option, which is allows us to send each listing to another command, sometimes expressed as 'piping the output' to another command. The **find** command originates in very early versions of Linux and Unix flavors, so, unlike many other commands, the 'long' options (more than a single character) use a single dash '-'.
 
-Each directory name from **find** is passed to the **du -sh** command, which displays the amount of space the directory consumes. The **-sh** option string is actually two options squeezed together. The **-s** option displays a summary of the top directory. Without it, **du** would descend into each subdirectory, which in many Linux home directories, numbers in the 1000's, and not very useful here. The **-h** option displays the output in **h**uman-readable form, which list output as **G**igabytes, **M**egabytes, etc.
+Each directory name from **find** is passed to the **du -sh** command, which displays the amount of space the directory consumes. The **-sh** option string is actually two options squeezed together. The **-s** option displays a summary of the top directory. Without it, **du** would descend into each subdirectory, which in many Linux home directories, numbers in the 1000's, and not very useful here. The **-h** option displays the output in **h**uman-readable form, which lists output as **G**igabytes, **M**egabytes, etc.
 
 The output of our command might look like this:
 
@@ -48,7 +48,7 @@ Wait! You mean my **.thunderbird** folder is 5GB? And what about **.cache**? I d
 
 ### Improving our output
 
-The command above is useful, but it can be difficult to inspect for unusually large folders if the directory contains a lrage number of sub-folders. Here, we'll tailor the command to sort the output using the **sort** command. The **sort** command takes several options. We'll look at two very useful ones. First, we'll add **-g**. Like the same option in the **du** command, this option performs a **h**uman-readable sort, and can properly sort file sizes, sorting **373M** before **5.0G**, etc. Here's what the previous listing would look like when we pipe through **sort -h**:
+The command above is useful, but it can be difficult to inspect if the directory contains a large number of sub-folders. Here, we'll tailor the command to sort the output using the **sort** command. The **sort** command takes several options. We'll look at two very useful ones. First, we'll add **-g**. Like the same option in the **du** command, this option performs a **h**uman-readable sort, and can properly sort file sizes, sorting **373M** before **5.0G**, etc. Here's what the previous listing would look like when we pipe through **sort -h**:
 
 ```
 # output slightly truncated...
