@@ -97,7 +97,50 @@ The basic syntax for a Bash **alias** is:
 alias <custom-command>="<actual-command>"
 ```
 
-The double-quotes in the **alias** command are essential. Once added as an alias, it becomes a new command in our arsenal of tools. Let's use it to get to the next level. If you recall, the **.thunderbird** folder in my home directory was 5GB. It was also a 'dot-file', meaning the filename began with a '.' and was hidden from normal view. We'll use repeated invocations of our new alias to find the culprit which is taking up so much space in this hidden directory.
+The double-quotes in the **alias** command are essential. Once added as an alias, it becomes a new command in our arsenal of tools. Let's use it to get to the next level. If you recall, the **.thunderbird** folder in my home directory was 5GB. It was also a 'dot-file', meaning the filename began with a '.' and was hidden from normal view. We'll use repeated invocations of our new alias to drill down the disk space hog.
+
+```
+me@myhost:~$ cd .thunderbird/
+me@myhost:/.thunderbird$ inspect-dir
+4.0K    ./installs.ini
+4.0K    ./Pending Pings
+4.0K    ./profiles.ini
+8.0K    ./.AppleDouble
+80K     ./Crash Reports
+4.2M    ./5bhn606r.default
+5.0G    .
+5.0G    ./r5u8rcgy.default
+me@myhost:/.thunderbird$ cd r5u8rcgy.default/
+me@myhost:/r5u8rcgy.default$ inspect-dir
+...
+5.0M    ./places.sqlite
+14M     ./storage
+351M    ./global-messages-db.sqlite
+4.6G    ./ImapMail
+5.0G    .
+```
+```
+me@myhost:/r5u8rcgy.default$ cd ImapMail/
+me@myhost:/ImapMail$ inspect-dir
+4.0K    ./imap.gmail.com.msf
+544K    ./mail.somedom.com
+149M    ./mail.otherdom.com
+4.5G    ./imap.gmail.com
+4.6G    .
+me@myhost:/ImapMail$ cd imap.gmail.com/
+me@myhost:/imap.gmail.com$ inspect-dir
+...
+672M    ./INBOX
+3.7G    ./[Gmail].sbd
+4.5G    .
+me@myhost:/imap.gmail.com$ cd '[Gmail].sbd'/
+me@myhost:/[Gmail].sbd$ inspect-dir 
+...
+1.1G    ./All Mail
+2.2G    ./Trash
+```
+
+Using this simple tool, I'm able to see that 2.2G of the space on my hard drive is dedicated to my Gmail Trash folder. While this is not very much in the real world, and I could possibly manage my Gmail account more efficiently, I believe this article demonstrates how useful our tool can be in real situations. For example, many web-hosting sites offer tiered storage rates, and cloud providers, such as Amazon, charge by actual storage units. Also, I backup my system to an offsite location, and I've used this tool to determine what can be omitted from my backups.
 
 ```
 me@myhost:/~$ cd .thunderbird/
