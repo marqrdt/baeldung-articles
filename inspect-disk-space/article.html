@@ -1,0 +1,134 @@
+<body>
+
+<h2>1.1 Inspecting Disk Usage on a Linux System</h2>
+
+<h3>1.2 Objective and Overview</h3>
+<p>
+    In this article, we'll learn some ways to inspect the file storage usage on a Linux system.
+    We'll also learn some techniques for drilling down into directories to inspect how much space each directory is consuming.
+    This article assumes some experience with running commands in the Bash shell and should apply to both Debian and CentOS-based systems.
+    These commands will work on both a local desktop system or a remote session to another machine.
+</p>
+
+<h3>1.2.2 Naming conventions</h3>
+
+<p>
+    We'll use the term "disk" throughout this article to refer to a storage device for data we want to preserve over time.
+    In modern computing hardware, most physical storage devices are neither disk-shaped or operate by retrieving bits from a
+    spinning plate. In addition, many systems use network-based "disks" which hide the hardware technology from the end user.
+    We'll keep things short using the term "disk" is shorter than "storage device".
+</p>
+
+<h3>1.3 Undestanding Basic Disk Layout</h3>
+<p>
+    It's important to understand the basic disk layout of our system. Linux OSes organize their storage into filesystems.
+    A filesystem is a top-level mapping of a storage device (disk, partition or logical volume) onto a directory name.
+    We'll use the <strong>df -h</strong> command to both see our disk layout and the basic usage for each filesystem:
+</p>
+    <code>
+        someuser@somehost:~$ df -h
+        Filesystem Size Used Avail Use% Mounted on
+        tmpfs 6.3G 4.7M 6.3G 1% /run
+        /dev/mapper/vgubuntu-root 456G 263G 170G 61% /
+        tmpfs 32G 234M 32G 1% /dev/shm
+        tmpfs 5.0M 4.0K 5.0M 1% /run/lock
+        tmpfs 32G 0 32G 0% /run/qemu
+        /dev/nvme0n1p2 705M 254M 401M 39% /boot
+        /dev/nvme0n1p1 511M 5.3M 506M 2% /boot/efi
+        /dev/mapper/vg_data_02-lv_data_02 916G 586G 284G 68% /mo-data-02
+        /dev/mapper/data_vol_01 457G 177G 257G 41% /mo-data-01
+    </code>
+
+    <p>
+        Thee <strong>lsblk</strong> command provides us similar information, but also displays a nicely-formatted device trees
+        to give an idea of how filesystems are laid out within a disk device. On an Ubuntu system, we might want to pipe the output
+        through <strong>grep -v "^loop[0-9]+"</strong> to filter out the display of installed <strong>snaps</strong>,
+        which appear as a filesystem node:
+    </p>
+
+    <code>
+        sda                                             8:0    0 465.8G  0 disk  
+        └─sda1                                          8:1    0 465.8G  0 part  
+          └─vg_data_01-lv_data_01                     253:1    0   465G  0 lvm   
+            └─data_vol_01                             253:5    0   465G  0 crypt /mo-data-01
+        sdc                                             8:32   0 931.5G  0 disk  
+        └─sdc1                                          8:33   0 931.5G  0 part  
+          └─vg_data_02-lv_data_02                     253:0    0 931.5G  0 lvm   /mo-data-02
+        nvme0n1                                       259:0    0 465.8G  0 disk  
+        ├─nvme0n1p1                                   259:1    0   512M  0 part  /boot/efi
+        ├─nvme0n1p2                                   259:2    0   732M  0 part  /boot
+        └─nvme0n1p3                                   259:3    0 464.5G  0 part  
+          └─nvme0n1p3_crypt                           253:2    0 464.5G  0 crypt 
+            ├─vgubuntu-root                           253:3    0 463.6G  0 lvm   /
+    </code>
+
+    <p>
+        Commands used:
+        <a>df</a>
+    </p>
+
+<h3>Analyzing disk usage for single directories</h3>
+<p>
+    We'll be drilling into our home directory (/home/someuser) to see home much space each directory is consuming.
+    And the results might be surprising. Looking at the output above from df -h, we notice that there is no listing for
+    /home/{username}, which indicates that it exists inside of one of the filesystems listed, /, or the <strong>root</strong> filesystem in this case. 
+    First we'll run the cd command with no arguments to change into our home directory, then we'll run ls -la to list the contents:
+</p>
+    <code>
+        someuser@somehost:~$ cd
+        someuser@somehost:~$ ls -la
+        total 650872
+        # [...many directories omitted...]
+        drwxr-xr-x  175 marqrdt marqrdt     12288 Feb  7 08:32  .
+        drwxr-xr-x    4 root    root         4096 Aug  3  2021  ..
+        drwxr-x---    4 marqrdt marqrdt      4096 Apr 25  2020  .ansible
+        drwxr-x---   14 marqrdt marqrdt      4096 Jan 25 19:38  Apps
+        drwxr-x---    9 marqrdt marqrdt      4096 Sep  3 22:30  .atom
+        -rw-------    1 marqrdt marqrdt     11413 Feb  5 09:09  .bash_history
+        -rwxr-x---    1 marqrdt marqrdt       220 Aug 17  2016  .bash_logout
+        -rwx------    1 marqrdt marqrdt       158 May 22  2019  .bash_profile
+        -rwx------    1 marqrdt marqrdt      4981 Dec 29 21:10  .bashrc
+        drwxr-x---    3 marqrdt marqrdt      4096 Feb 12 08:55  .byobu
+        drwxr-x---  159 marqrdt marqrdt     12288 Jan 17 09:25  .cache
+        drwxr-x---  161 marqrdt marqrdt     12288 Jan 31 14:31  .config
+        drwxr-x---    4 marqrdt marqrdt      4096 Jan  6 17:46  Desktop
+        drwxr-x---   34 marqrdt marqrdt     16384 Feb 10 22:57  Documents
+        drwxr-x---+  10 marqrdt marqrdt     20480 Feb  9 12:00  Downloads
+        drwxrwxr-x   11 marqrdt marqrdt      4096 Jan 14 22:34  .emacs.d
+        drwxr-x---    5 marqrdt marqrdt      4096 Mar  6  2020  .local
+        drwxr-x---   12 marqrdt marqrdt      4096 Sep 30 22:49  Music
+        drwxrwxr-x    2 marqrdt marqrdt      4096 Jan  9 08:30  Videos
+    </code>
+
+    <p>
+        Commands used:
+        <a>cd</a>
+        <a>ls</a>
+    </p>
+<p>
+    The flags <strong>-ls</strong> instruct the <strong>ls</strong> command to output a <strong>l</strong>ong listing, showing columns for
+    the permissions and file type, the number of subdirectories, the user and group owner, the size of the directory listing 
+    (we'll see later that is is NOT the amount of space directory consumes), the modification date and time and finally, the directory name.
+</p>
+<p>
+    From our home directory, we'll run the command <strong>du -sh</strong>. This command is similar to <strong>df</strong> and 
+    displays the amount of space a directory consumes. We add the <strong>-sh</strong> option string is actually two options squeezed together.
+    The -s option displays a summary of the top directory. Without it, <strong>du</strong> would descend into each subdirectory, 
+    which, in many Linux home directories, can number in the 1000's and not very useful here.
+    The <strong>-h</strong> option displays the output in <strong>h</strong>uman-readable form, which lists output as **G**igabytes, **M**egabytes, etc.
+    The trailing dot indicates the name of the directory to inspect, which is the current directory (/home/someuser).
+    The output below shows that my home directory is using 221G of disk space:
+</p>
+
+<code>
+    someuser@somehost:~$ du -sh .
+    221G    .
+</code>
+
+<h3>Analyzing disk usage for individual directories</h3>
+
+<p>
+    Knowing that a directory is using 
+</p>
+
+</body>

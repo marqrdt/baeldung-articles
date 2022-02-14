@@ -99,6 +99,22 @@ alias <custom-command>="<actual-command>"
 
 The double-quotes in the **alias** command are essential. Once added as an alias, it becomes a new command in our arsenal of tools. Let's use it to get to the next level. If you recall, the **.thunderbird** folder in my home directory was 5GB. It was also a 'dot-file', meaning the filename began with a '.' and was hidden from normal view. We'll use repeated invocations of our new alias to find the culprit which is taking up so much space in this hidden directory.
 
+```
+me@myhost:/~$ cd .thunderbird/
+me@myhost:/.thunderbird$ inspect-dir 
+4.0K    ./installs.ini
+4.0K    ./Pending Pings
+4.0K    ./profiles.ini
+76K     ./Crash Reports
+4.2M    ./5bhn606r.default
+5.0G    .
+5.0G    ./r5u8rcgy.default
+```
+
+It seems the **r5u8rcgy.default** directory is the space hog. We'll descend further until we find actual files.
+
+
+
 ### Make it into a reusable utility
 
 We've been able to shorten our complex **find** command into a single command **inspect-dir**. But if we log out of our session, all of our work is lost. In this step, we'll modify our Bash profile to make our utility available across shell sessions, logins and system reboots. The key is to add our aliased command to our Bash profile. We will not cover how to edit files in this article, but will only specify what changes to make to our persistent Bash profile. This profile is stored in our $HOME directory in both **.bash_profile** and **.bashrc**.
